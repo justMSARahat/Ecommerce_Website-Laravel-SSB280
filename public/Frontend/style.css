@@ -1,0 +1,11 @@
+.checkout{
+    margin-bottom: 20px;
+}
+.option_gateway{
+    border: 2px solid skyblue;
+    padding: 10px;
+    margin: 10px 0px;
+}
+.hide{
+    display: none;
+}
