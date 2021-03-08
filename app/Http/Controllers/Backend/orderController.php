@@ -23,11 +23,17 @@ class orderController extends Controller
     public function index()
     {
         $total_item = cart::orderBy('id','desc')->where('order_id',Null)->get();
+        $cart       = cart::totalPrice();
         if( !is_null($total_item) ){
-            return view('frontend.pages.checkout',compact('total_item') );
+            if( $cart != 0 ){
+                return view('frontend.pages.checkout',compact('total_item') );
+            }
+            else{
+                return redirect()->route('cart.manage');
+            }
         }
         else{
-            return redirect()->route('allproducts');
+            return redirect()->route('cart.manage');
         }
     }
 
@@ -41,16 +47,16 @@ class orderController extends Controller
     {
         $request->validate(
             [
-                'first_name'        => 'required',     
+                'first_name'        => 'required',
                 'email'             => 'required',
                 'phone'             => 'required',
-                'shipping_address'  => 'required',           
+                'shipping_address'  => 'required',
             ],
             [
-                'first_name.required'        => 'Please Make Sure First Name is not Empty',     
+                'first_name.required'        => 'Please Make Sure First Name is not Empty',
                 'email.required'             => 'Please Make Sure The Email is not Empty',
                 'phone.required'             => 'Please Make Sure The Phone Number is not Empty',
-                'shipping_address.required'  => 'Please Make Sure The Address is not Empty', 
+                'shipping_address.required'  => 'Please Make Sure The Address is not Empty',
             ]);
 
             $order = new order();
@@ -69,47 +75,47 @@ class orderController extends Controller
                 $order->ip_address = $request->ip();
             }
 
-            $order->name             = $request->name;       
-            $order->last_name        = $request->last_name;      
-            $order->email            = $request->email;  
-            $order->phone            = $request->phone;  
-            $order->address          = $request->address;             
-            $order->division_id      = $request->division_id;        
-            $order->district_id      = $request->district_id;        
-            $order->zip_code         = $request->zip_code;     
-            $order->message          = $request->message;    
-            $order->amount           = $request->amount;            
-            $order->pricewithcoupon  = $request->pricewithcoupon;            
-            $order->is_paid          = $request->is_paid;    
-            $order->payment_id       = $request->payment_id;    
+            $order->name             = $request->name;
+            $order->last_name        = $request->last_name;
+            $order->email            = $request->email;
+            $order->phone            = $request->phone;
+            $order->address          = $request->address;
+            $order->division_id      = $request->division_id;
+            $order->district_id      = $request->district_id;
+            $order->zip_code         = $request->zip_code;
+            $order->message          = $request->message;
+            $order->amount           = $request->amount;
+            $order->pricewithcoupon  = $request->pricewithcoupon;
+            $order->is_paid          = $request->is_paid;
+            $order->payment_id       = $request->payment_id;
             if( $order->payment_id == 1 ){
-                $order->transaction_id   = $request->btransaction_id; 
-            }   
+                $order->transaction_id   = $request->btransaction_id;
+            }
             elseif( $order->payment_id == 3 ){
-                $order->transaction_id   = $request->rtransaction_id; 
-            }   
+                $order->transaction_id   = $request->rtransaction_id;
+            }
             elseif( $order->payment_id == 4 ){
-                $order->transaction_id   = $request->ntransaction_id; 
-            }   
+                $order->transaction_id   = $request->ntransaction_id;
+            }
             else{
-                $order->transaction_id   = $request->ctransaction_id; 
-            }   
-            
+                $order->transaction_id   = $request->ctransaction_id;
+            }
+
             $order->save();
-            
+
             foreach( cart::totalCarts() as $cart ){
                 $cart->order_id = $order->id;
-                
+
                 if( Auth::check() ){
                     $cart->user_id = Auth::id();
                 }
                 else{
                     $cart->ip_address = $request->ip();
                 }
-                
+
                 $cart->save();
             }
-            
+
 
             $nofty =array(
                 'message' => 'Congratulation! Order Placed!',

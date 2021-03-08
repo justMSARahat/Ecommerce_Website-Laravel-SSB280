@@ -32,8 +32,8 @@ class cart extends Model
     }
 
     public static function totalCarts(){
-        if ( Auth::check() ) {
-            $carts = cart::Where('user_id', Auth::id() )->Where( 'order_id' , Null )->get();
+        if ( Auth::guard('customer')->check() ) {
+            $carts = cart::Where('user_id', Auth::guard('customer')->user()->id )->Where( 'order_id' , Null )->get();
         }
         else{
             $carts = cart::Where('ip_address', request()->ip() )->Where( 'order_id' , Null )->get();
@@ -43,8 +43,8 @@ class cart extends Model
     }
 
     public static function totalItems(){
-        if ( Auth::check() ) {
-            $carts = cart::Where('user_id', Auth::id() )->Where( 'order_id' , Null )->get();
+        if ( Auth::guard('customer')->check() ) {
+            $carts = cart::Where('user_id', Auth::guard('customer')->user()->id )->Where( 'order_id' , Null )->get();
         }
         else{
             $carts = cart::Where('ip_address', request()->ip() )->Where( 'order_id' , Null )->get();
@@ -60,7 +60,7 @@ class cart extends Model
 
     public static function totalPrice(){
         if ( Auth::check() ) {
-            $carts = cart::Where('user_id', Auth::id() )->Where( 'order_id' , Null )->get();
+            $carts = cart::Where('user_id', Auth::guard('customer')->user()->id )->Where( 'order_id' , Null )->get();
         }
         else{
             $carts = cart::Where('ip_address', request()->ip() )->Where( 'order_id' , Null )->get();
