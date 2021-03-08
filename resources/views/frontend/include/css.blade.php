@@ -25,3 +25,7 @@
 
 {{--Toastr CSS CDN--}}
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+{{-- Favicon --}}
+<link rel="shortcut icon" href="{{ asset('Frontend/fav.jpg') }}" type="image/jpg">
+

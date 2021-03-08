@@ -8,10 +8,10 @@
           <div id="owl-single-product" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
             <div class="owl-wrapper-outer">
               <div class="owl-wrapper" style="width: 5742px; left: 0px; display: block; transition: all 0ms ease 0s; transform: translate3d(0px, 0px, 0px);">
-                
+
                 <!-- Product Multiple Image -->
                 <div class="owl-item" style="width: 319px;">
-                 
+
                   <div class="single-product-gallery-item" id="slide1">
                     @if( !is_null( $value->image ) )
                     <a data-lightbox="image-1" data-title="Gallery" href="assets/images/products/p8.jpg">
@@ -135,8 +135,8 @@
         </div>
         <!-- /.single-product-gallery -->
       </div>
-      
-      <!-- /.gallery-holder -->        			
+
+      <!-- /.gallery-holder -->
       <div class="col-sm-6 col-md-7 product-info-block">
         <div class="product-info">
           <h1 class="name">{{ $value->title }}</h1>
@@ -157,7 +157,7 @@
                 </div>
               </div>
             </div>
-            <!-- /.row -->		
+            <!-- /.row -->
           </div>
           <!-- /.rating-reviews -->
           <div class="stock-container info-container m-t-10">
@@ -177,11 +177,18 @@
                 </div>
               </div>
             </div>
-            <!-- /.row -->	
+            <!-- /.row -->
           </div>
           <!-- /.stock-container -->
           <div class="description-container m-t-20">
-            {{ $value->short_desc }}
+            <html>
+                    <body>
+
+                        {{ $value->short_desc }}
+                    </body>
+
+            </html>
+
           </div>
           <!-- /.description-container -->
           <div class="price-container info-container m-t-20">
@@ -220,7 +227,7 @@
               <div class="col-sm-2">
                 <span class="label">Qty :</span>
               </div>
-             
+
             <form action="{{ route('cart.store') }}" method="POST">
               @csrf
               <div class="col-sm-2">
@@ -362,7 +369,7 @@
                 </div>
                 <!-- /.review-form -->
               </div>
-              <!-- /.product-add-review -->										
+              <!-- /.product-add-review -->
             </div>
             <!-- /.product-tab -->
           </div>
@@ -401,90 +408,91 @@
   </div>
   <!-- /.product-tabs -->
   <!-- ============================================== UPSELL PRODUCTS ============================================== -->
-  <section class="section featured-product wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
-    <h3 class="section-title">upsell products</h3>
-    <div class="owl-carousel home-owl-carousel upsell-product custom-carousel owl-theme outer-top-xs" style="opacity: 1; display: block;">
-      <div class="owl-wrapper-outer">
-        <div class="owl-wrapper" style="width: 2484px; left: 0px; display: block; transition: all 0ms ease 0s; transform: translate3d(0px, 0px, 0px);">
-          
-          <div class="owl-item" style="width: 207px;">
-            <div class="item item-carousel">
-              <div class="products">
+
+
+
+
+  <section class="section wow fadeInUp new-arriavls">
+    <h3 class="section-title">More For You</h3>
+    <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
+        @foreach( $newarraivals as $value)
+        <div class="item item-carousel">
+            <div class="products">
                 <div class="product">
-                  <div class="product-image">
-                    <div class="image">
-                      <a href="detail.html"><img src="{{ asset('Frontend/assets/images/products/p1.jpg') }}" alt=""></a>
+                    <div class="product-image">
+                        <div class="image">
+                            <a href="{{ route('product.show', $value->slug ) }}">
+                              @if( !is_null( $value->image ) )
+                                <img  src="{{ asset('Backend/img/Product_Primary_image' ) }}/{{ $value->image }}" alt="">
+                              @else
+                                <img  src="{{ asset('Backend/img/Product_Primary_image/no_image.png' ) }}" alt="">
+                              @endif
+                            </a>
+                        </div>
+                        <!-- /.image -->
+                        @if($value->is_featured == 0)
+                          <div class="tag sale"><span>Sale</span></div>
+                        @else
+                          @if($value->product_type == 0)
+                            <div class="tag new"><span>NEW</span></div>
+                          @else($value->product_type == 1)
+                            <div class="tag hot"><span>OLD</span></div>
+                          @endif
+                        @endif
                     </div>
-                    <!-- /.image -->			
-                    <div class="tag sale"><span>sale</span></div>
-                  </div>
-                  <!-- /.product-image -->
-                  <div class="product-info text-left">
-                    <h3 class="name"><a href="detail.html">Floral Print Buttoned</a></h3>
-                    <div class="rating rateit-small rateit">
-                      <button id="rateit-reset-6" data-role="none" class="rateit-reset" aria-label="reset rating" aria-controls="rateit-range-6" style="display: none;"></button>
-                      <div id="rateit-range-6" class="rateit-range" tabindex="0" role="slider" aria-label="rating" aria-owns="rateit-reset-6" aria-valuemin="0" aria-valuemax="5" aria-valuenow="4" aria-readonly="true" style="width: 70px; height: 14px;">
-                        <div class="rateit-selected" style="height: 14px; width: 56px;"></div>
-                        <div class="rateit-hover" style="height:14px"></div>
-                      </div>
+                    <!-- /.product-image -->
+                    <div class="product-info text-left">
+                        <h3 class="name"><a href="{{ route('product.show', $value->slug ) }}">{{ $value->title }}</a></h3>
+                        <div class="rating rateit-small"></div>
+                        <div class="description"></div>
+                        @if( !is_null($value->offer_price) )
+                          <div class="product-price">
+                              <span class="price">৳ {{ $value->reguler_price }} BDT</span>
+                              <span class="price-before-discount">৳ {{ $value->offer_price }} BDT</span>
+                          </div>
+                        @else
+                          <div class="product-price">
+                              <span class="price">৳ {{ $value->reguler_price }} BDT</span>
+                          </div>
+                        @endif
+                        <!-- /.product-price -->
                     </div>
-                    <div class="description"></div>
-                    <div class="product-price">	
-                      <span class="price">
-                      $650.99				</span>
-                      <span class="price-before-discount">$ 800</span>
+                    <!-- /.product-info -->
+                    <div class="cart clearfix animate-effect">
+                        <div class="action">
+                            <ul class="list-unstyled">
+                                <li class="add-cart-button btn-group">
+                                  <form action="{{ route('cart.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $value->id }}">
+                                    <input type="hidden" name="product_quantity" value="1">
+                                    <button class="btn btn-primary icon" type="submit">  <i class="fa fa-shopping-cart"></i>
+                                    </button>
+
+                                    <!-- <button class="btn btn-primary cart-btn" type="button">Add to cart</button> -->
+                                  </form>
+                                </li>
+                                <li class="lnk wishlist"> <a class="add-to-cart" href="detail.html" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> </li>
+                                <li class="lnk"> <a class="add-to-cart" href="detail.html" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> </li>
+                            </ul>
+                        </div>
                     </div>
-                    <!-- /.product-price -->
-                  </div>
-                  <!-- /.product-info -->
-                  <div class="cart clearfix animate-effect">
-                    <div class="action">
-                      <ul class="list-unstyled">
-                        <li class="add-cart-button btn-group">
-                          <button class="btn btn-primary icon" data-toggle="dropdown" type="button">
-                          <i class="fa fa-shopping-cart"></i>													
-                          </button>
-                          <button class="btn btn-primary cart-btn" type="button">Add to cart</button>
-                        </li>
-                        <li class="lnk wishlist">
-                          <a class="add-to-cart" href="detail.html" title="Wishlist">
-                          <i class="icon fa fa-heart"></i>
-                          </a>
-                        </li>
-                        <li class="lnk">
-                          <a class="add-to-cart" href="detail.html" title="Compare">
-                          <i class="fa fa-signal"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <!-- /.action -->
-                  </div>
-                  <!-- /.cart -->
+                    <!-- /.cart -->
                 </div>
                 <!-- /.product -->
-              </div>
-              <!-- /.products -->
             </div>
-          </div>
-
+            <!-- /.products -->
         </div>
-      </div>
-      <!-- /.item -->
-      <!-- /.item -->
-      <!-- /.item -->
-      <!-- /.item -->
-      <!-- /.item -->
-      <!-- /.item -->
-      <div class="owl-controls clickable">
-        <div class="owl-buttons">
-          <div class="owl-prev"></div>
-          <div class="owl-next"></div>
-        </div>
-      </div>
+        @endforeach
     </div>
     <!-- /.home-owl-carousel -->
-  </section>
+</section>
+
+
+
+
+
+
   <!-- /.section -->
   <!-- ============================================== UPSELL PRODUCTS : END ============================================== -->
 </div>

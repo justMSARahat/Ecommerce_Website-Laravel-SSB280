@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\Category;
+use App\Models\Backend\category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Image;
@@ -88,7 +88,7 @@ class CategoryController extends Controller
     {
         $category = category::find($id);
         if (!is_null($category)) {
-            return view('Backend.pages.category.edit',compact('category'));
+            return view('backend.pages.category.edit',compact('category'));
         }else{
             return redirect()->route('category.manage');
         }

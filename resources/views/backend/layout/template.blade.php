@@ -2,26 +2,26 @@
 <html lang="en">
   <head>
     <!-- Header Tags -->
-    @include('Backend.include.header')
+    @include('backend.include.header')
 
     <title></title>
 
     <!-- Css -->
-    @include('Backend.include.css')
+    @include('backend.include.css')
   </head>
 
   <body>
 
     <!-- ########## START: LEFT PANEL ########## -->
-    @include('Backend.include.menu')
+    @include('backend.include.menu')
     <!-- ########## END: LEFT PANEL ########## -->
 
     <!-- ########## START: HEAD PANEL ########## -->
-    @include('Backend.include.top')
+    @include('backend.include.top')
     <!-- ########## END: HEAD PANEL ########## -->
 
     <!-- ########## START: RIGHT PANEL ########## -->
-    @include('Backend.include.rightbar')
+    @include('backend.include.rightbar')
     <!-- ########## END: RIGHT PANEL ########## --->
 
     <!-- ########## START: MAIN PANEL ########## -->
@@ -37,14 +37,14 @@
 
 
       <!-- ########## START: RIGHT PANEL ########## -->
-      @include('Backend.include.footer')
+      @include('backend.include.footer')
       <!-- ########## END: RIGHT PANEL ########## --->
 
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
     <!-- ########## START: Script PANEL ########## -->
-    @include('Backend.include.script')
+    @include('backend.include.script')
     <!-- ########## END: Script PANEL ########## --->
   </body>
 </html>

@@ -35,6 +35,11 @@ class SslCommerzPaymentController extends Controller
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 
     # CUSTOMER INFORMATION
+        if ( Auth::guard('customer')->check() ) {
+            $post_data['user_id'] = Auth()->guard('customer')->user()->id;
+        }else{
+            $post_data['user_id'] = Null;
+        }
         $post_data['ip_address']   = $request->ip() ?? '';
         $post_data['cus_name']     = $request->name ?? '';
         $post_data['cus_email']    = $request->email ?? '';
@@ -79,31 +84,33 @@ class SslCommerzPaymentController extends Controller
         $update_product = DB::table('orders')
             ->where('transaction_id', $post_data['tran_id'])
             ->updateOrInsert([
-                'ip_address' =>$post_data['ip_address'],
-                'name' => $post_data['cus_name'],
-                'last_name' =>$post_data['last_name'],
-                'email' => $post_data['cus_email'],
-                'phone' => $post_data['cus_phone'],
-                'amount' => $post_data['total_amount'],
-                'status' => 'Pending',
-                'division_id' => $post_data['division_id'],
-                'district_id' => $post_data['district_id'],
-                'zip_code' => $post_data['zip_code'],
-                'message' => $post_data['message'],
+                'user_id'    => $post_data['user_id'],
+                'ip_address' => $post_data['ip_address'],
+                'name'       => $post_data['cus_name'],
+                'last_name'  => $post_data['last_name'],
+                'email'      => $post_data['cus_email'],
+                'phone'      => $post_data['cus_phone'],
+                'amount'     => $post_data['total_amount'],
+                'status'     => 'Pending',
+                'division_id'=> $post_data['division_id'],
+                'district_id'=> $post_data['district_id'],
+                'zip_code'   => $post_data['zip_code'],
+                'message'    => $post_data['message'],
                 'pricewithcoupon' => $post_data['pricewithcoupon'],
-                'address' => $post_data['cus_add1'],
+                'address'    => $post_data['cus_add1'],
                 'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency'],
-                'invoice' => $post_data['invoice']
+                'currency'   => $post_data['currency'],
+                'invoice'    => $post_data['invoice']
             ]);
 
             $order_id = \Illuminate\Support\Facades\DB::getPdo()->lastInsertId();
             foreach( cart::totalCarts() as $cart ){
+
                 $cart->order_id = $order_id;
                 $cart->invoice = $post_data['invoice'];
 
-                if( Auth::check() ){
-                    $cart->user_id = Auth::id();
+                if( Auth::guard('customer')->check() ){
+                    $cart->user_id = Auth::guard('customer')->user()->id;
                 }
                 else{
                     $cart->ip_address = $request->ip();
@@ -114,8 +121,8 @@ class SslCommerzPaymentController extends Controller
 
             // $order_item = cart::where(['user_id',Auth::id()],['ip_address',$request->ip()]);
 
-            if ( Auth::check() ) {
-                $cart_item = cart::Where('user_id', Auth::user()->id )->get();
+            if ( Auth::guard('customer')->check() ) {
+                $cart_item = cart::Where('user_id', Auth::guard('customer')->user()->id )->get();
             }
             else{
                 $cart_item = cart::Where('ip_address', request()->ip() )->get();
@@ -125,8 +132,11 @@ class SslCommerzPaymentController extends Controller
 
                 $OrderItem = new OrderItem();
 
+                if ( Auth::guard('customer')->check() ) {
+                    // $cart->user_id = Auth()->guard('customer')->user()->id;
+                    $OrderItem->user_id          = Auth()->guard('customer')->user()->id;
+                }
                 if ( Auth::check() ) {
-                    $OrderItem->user_id          = Auth::user()->id;
                 }
                 $OrderItem->ip               = $request->ip();
                 $OrderItem->invoice          = $post_data['invoice'];
@@ -138,7 +148,7 @@ class SslCommerzPaymentController extends Controller
             }
 
             if ( Auth::check() ) {
-                cart::where(['user_id'=>Auth::user()->id,'ip_address'=>$request->ip()])->delete();
+                cart::where(['user_id'=>Auth::guard('customer')->user()->id,'ip_address'=>$request->ip()])->delete();
             }
             else{
                 cart::where('ip_address',$request->ip())->delete();

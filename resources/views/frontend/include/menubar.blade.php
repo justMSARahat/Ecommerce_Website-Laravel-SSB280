@@ -133,7 +133,7 @@
                                 <a href="{{ route('allproducts') }}">All Products</a>
                             </li>
                             
-                            @foreach( App\Models\Backend\Category::orderBy('name','asc')->where('is_parent',0)->take(7)->get() as $ParentCategory )
+                            @foreach( App\Models\Backend\category::orderBy('name','asc')->where('is_parent',0)->take(7)->get() as $ParentCategory )
                                 @if( App\Models\Backend\Category::orderBy('name','asc')->where('is_parent',$ParentCategory->id)->count() > 0 )
                                     @foreach( App\Models\Backend\Category::orderBy('name','asc')->where('is_parent',$ParentCategory->id)->get() as $ChildCategory )
                                         <li class="dropdown mega-menu">

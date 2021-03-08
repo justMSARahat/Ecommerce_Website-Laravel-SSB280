@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Brand;
-use App\Models\Backend\Category;
+use App\Models\Backend\category;
 use App\Models\Backend\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -106,7 +106,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         if (!is_null($product)) {
             $brand = Brand::orderBy('name','asc')->where('status',1)->get();
-            $category = Category::orderBy('name','asc')->where('status',1)->get();
+            $category = category::orderBy('name','asc')->where('status',1)->get();
             return view('backend.pages.product.edit',compact('product','brand','category'));
         }
     }

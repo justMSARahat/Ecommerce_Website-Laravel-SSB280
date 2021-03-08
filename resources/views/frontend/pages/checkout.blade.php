@@ -61,7 +61,7 @@
                                     <label for="">Division</label>
                                     <select name="division_id" id="" class="form-control">
                                         <option selected>Select Shipping Division</option>
-                                        @foreach ( App\Models\Backend\division::orderBy('name','asc')->get() as $value)
+                                        @foreach ( App\Models\Backend\Division::orderBy('name','asc')->get() as $value)
                                             <option value="{{ $value->id }}">{{ $value->name }}</option>
                                         @endforeach
                                     </select>
@@ -72,7 +72,7 @@
                                     <label for="">District</label>
                                     <select name="district_id" id="" class="form-control">
                                         <option selected>Select Shipping District</option>
-                                        @foreach ( App\Models\Backend\district::orderBy('name','asc')->get() as $value)
+                                        @foreach ( App\Models\Backend\District::orderBy('name','asc')->get() as $value)
                                             <option value="{{ $value->id }}">{{ $value->name }}</option>
                                         @endforeach
                                     </select>
@@ -93,7 +93,7 @@
                             {{-- Payment Method --}}
                             <div class="payment-option">
                                 <h4>Please Select the Payment Method</h4>
-                                @foreach( App\Models\Backend\payment::orderBy('name','asc')->get() as $method )
+                                @foreach( App\Models\Backend\Payment::orderBy('name','asc')->get() as $method )
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="payment_id" id="{{ $method->slug }}" value="{{ $method->id }}">
                                         <label class="form-check-label" for="{{ $method->slug }}">

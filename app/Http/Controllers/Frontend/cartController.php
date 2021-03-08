@@ -41,7 +41,7 @@ class cartController extends Controller
         ]);
 
         if ( Auth::check() ) {
-            $cart = cart::Where('user_id', Auth::user()->id )->Where( 'product_id' , $request->product_id )->first();
+            $cart = cart::Where('user_id', Auth()->guard('customer')->user()->id )->Where( 'product_id' , $request->product_id )->first();
         }
         else{
             $cart = cart::Where('ip_address', request()->ip() )->Where( 'product_id' , $request->product_id )->first();
@@ -59,13 +59,15 @@ class cartController extends Controller
         else{
             $cart = new cart();
 
-            if ( Auth::check() ) {
-                $cart->user_id = Auth::id();
+            if ( Auth::guard('customer')->check() ) {
+                $cart->user_id = Auth()->guard('customer')->user()->id;
             }
             $cart->ip_address       = $request->ip();
             $cart->product_id       = $request->product_id;
             $cart->product_quantity = $request->product_quantity;
 
+
+            // dd($cart); exit();
 
             $cart->save();
 

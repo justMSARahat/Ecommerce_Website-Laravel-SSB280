@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\brand;
+use App\Models\Backend\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Image;
@@ -19,7 +19,7 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::orderBy('name','asc')->get();
-        return view('Backend.pages.brand.manage', compact('brands'));
+        return view('backend.pages.brand.manage', compact('brands'));
     }
 
     /**
@@ -29,7 +29,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-         return view('Backend.pages.brand.create');
+         return view('backend.pages.brand.create');
     }
 
     /**
@@ -90,7 +90,7 @@ class BrandController extends Controller
         $brand =  Brand::find($id);
         if ( !is_null($brand) ) 
         {
-          return view('Backend.pages.brand.edit', compact('brand'));
+          return view('backend.pages.brand.edit', compact('brand'));
         }
         else
         {

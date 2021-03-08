@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Backend\Slider;
 use App\Models\HomeSliders;
 use App\Models\Backend\Brand;
-use App\Models\Backend\Category;
+use App\Models\Backend\category;
 use App\Models\Backend\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -67,9 +67,10 @@ class PagesController extends Controller
     //Show Product Details
     public function productshow($slug)
     {
+        $newarraivals = Product::orderBy('id','desc')->get();
         $value = Product::where('slug',$slug)->first();
         if (!is_null($value)) {
-            return view('frontend.pages.products.details' , compact('value'));
+            return view('frontend.pages.products.details' , compact('value','newarraivals'));
         }else{
             return back();
         }
@@ -95,7 +96,7 @@ class PagesController extends Controller
     //Show Product details Category Wise
     public function categoryproduct($slug)
     {
-        $value = Category::where('slug',$slug)->first();
+        $value = category::where('slug',$slug)->first();
         if( !is_null( $value ) ){
             return view('frontend.pages.products.category' , compact('value'));
         }

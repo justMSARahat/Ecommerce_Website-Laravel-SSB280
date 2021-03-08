@@ -338,36 +338,37 @@ jQuery("[data-toggle='tooltip']").tooltip();
 })
 
 /*===================================================================================*/
-/*  Checkout Page Payment System Form
+/*  Payment Option
 /*===================================================================================*/
+
 $(document).ready(function(){
 
-    $('#Bkash').click(function(){
-        $('.Bkash').removeClass('hide');
-        $('.Rocket').addClass('hide');
-        $('.nagad').addClass('hide');
-        $('.COD').addClass('hide');
+    $('#bkash').click(function(){
+        $('.bkash').removeClass('hidden');
+        $('.rocket').addClass('hidden');
+        $('.nagad').addClass('hidden');
+        $('.cashondelivery').addClass('hidden');
     });
 
-    $('#Rocket').click(function(){
-        $('.Bkash').addClass('hide');
-        $('.Rocket').removeClass('hide');
-        $('.nagad').addClass('hide');
-        $('.COD').addClass('hide');
+    $('#rocket').click(function(){
+        $('.bkash').addClass('hidden');
+        $('.rocket').removeClass('hidden');
+        $('.nagad').addClass('hidden');
+        $('.cashondelivery').addClass('hidden');
     });
 
     $('#nagad').click(function(){
-        $('.Bkash').addClass('hide');
-        $('.Rocket').addClass('hide');
-        $('.nagad').removeClass('hide');
-        $('.COD').addClass('hide');
+        $('.bkash').addClass('hidden');
+        $('.rocket').addClass('hidden');
+        $('.nagad').removeClass('hidden');
+        $('.cashondelivery').addClass('hidden');
     });
 
-    $('#COD').click(function(){
-        $('.Bkash').addClass('hide');
-        $('.Rocket').addClass('hide');
-        $('.nagad').addClass('hide');
-        $('.COD').removeClass('hide');
+    $('#cashondelivery').click(function(){
+        $('.bkash').addClass('hidden');
+        $('.rocket').addClass('hidden');
+        $('.nagad').addClass('hidden');
+        $('.cashondelivery').removeClass('hidden');
     });
 
 });
